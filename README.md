@@ -12,6 +12,11 @@ A Python-based DJ Mixer application for playback on multiple sound devices. This
 - **Graphical User Interface**: Professional DJ mixer GUI with visual controls
 - **Command-Line Interface**: Interactive CLI for easy mixer control
 - **Mock Testing**: Test functionality without audio hardware
+- **🤖 AI-Powered Features**: 
+  - **Auto Mixing**: Intelligent track analysis and automated crossfader transitions
+  - **Key Mixing**: Harmonic key analysis and compatibility recommendations
+  - **Fader Effects**: Smart effect suggestions based on track energy and context
+  - **Gemini API Integration**: Configure with your own API key for advanced AI features
 
 ## Installation
 
@@ -50,6 +55,10 @@ The GUI provides:
 - **Playback Controls**: Play, pause, stop buttons for each deck
 - **File Browser**: Easy track loading with standard file dialogs
 - **Status Monitor**: Real-time display of mixer status and track information
+- **🤖 AI Assistant**: Configure Gemini API for intelligent mixing features
+- **Auto Mixing**: Start AI-powered automatic transitions between tracks
+- **Key Analysis**: Get harmonic compatibility advice for smooth mixing
+- **Fader Effects**: AI-suggested effects based on track characteristics
 
 ### Using the Command-Line Interface
 
@@ -72,30 +81,40 @@ DJ> status                  # Show mixer status
 DJ> help                    # Show all available commands
 ```
 
-### Using the Python API
+### Using the AI Features
+
+The DJ Mixer now includes intelligent AI-powered mixing capabilities:
 
 ```python
-from dj_mixer import DJMixer
+from ai_dj_assistant import AIDJAssistant
 
-# Initialize mixer
-mixer = DJMixer()
-mixer.initialize()
+# Initialize AI assistant
+ai = AIDJAssistant()
 
-# Load tracks
-mixer.load_track("deck1", "track1.mp3")
-mixer.load_track("deck2", "track2.wav")
+# Configure with Gemini API key (optional - works in mock mode without)
+ai.configure_gemini("your-gemini-api-key")
 
-# Control playback
-mixer.play_track("deck1")
-mixer.set_track_volume("deck1", 0.8)
+# Analyze tracks for intelligent mixing
+analysis = ai.analyze_track("deck1", "house_track.mp3")
+print(f"Track: {analysis.tempo} BPM, Key: {analysis.key}, Energy: {analysis.energy}")
 
-# Crossfading
-mixer.set_crossfader(0.3)  # 0.0 = full left, 1.0 = full right
-mixer.apply_crossfader("deck1", "deck2")
+# Get AI mixing advice
+advice = ai.get_auto_mixing_advice("deck1", "deck2")
+print(f"Suggested crossfader position: {advice.crossfader_position}")
 
-# Cleanup
-mixer.cleanup()
+# Check harmonic compatibility
+key_advice = ai.get_key_mixing_advice("deck1", "deck2")
+print(f"Key compatibility: {key_advice['compatibility']}")
+
+# Start automated mixing
+ai.start_auto_mixing("deck1", "deck2")
 ```
+
+#### AI Features:
+- **Auto Mixing**: Analyzes tempo, key, and energy to create smooth transitions
+- **Key Mixing**: Provides harmonic compatibility analysis using music theory
+- **Fader Effects**: Suggests optimal effects based on track characteristics
+- **Mock Mode**: Full functionality without requiring API key for testing
 
 ### Testing Without Audio Hardware
 
@@ -125,14 +144,17 @@ python example.py --info
 
 ```
 DJ/
-├── dj_mixer.py      # Core DJ mixer functionality
-├── dj_gui.py        # Graphical user interface
-├── dj_cli.py        # Interactive command-line interface
-├── test_mixer.py    # Mock testing without audio hardware
-├── test_gui.py      # GUI functionality tests
-├── example.py       # Example usage and demos
-├── requirements.txt # Python dependencies
-└── README.md        # This file
+├── dj_mixer.py        # Core DJ mixer functionality
+├── dj_gui.py          # Graphical user interface with AI integration
+├── dj_cli.py          # Interactive command-line interface
+├── ai_dj_assistant.py # AI-powered mixing assistant with Gemini API
+├── test_mixer.py      # Mock testing without audio hardware
+├── test_gui.py        # GUI functionality tests
+├── test_ai_assistant.py # AI assistant functionality tests
+├── demo_ai_features.py # Demo of AI capabilities
+├── example.py         # Example usage and demos
+├── requirements.txt   # Python dependencies (includes google-generativeai)
+└── README.md          # This file
 ```
 
 ## GUI Interface
@@ -222,6 +244,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Python 3.7+
 - pygame >= 2.5.0
 - pydub >= 0.25.1
+- google-generativeai >= 0.3.0 (for AI features)
+
+## AI Configuration
+
+To enable full AI features:
+1. Get a Gemini API key from [Google AI Studio](https://aistudio.google.com/)
+2. In the GUI, enter your API key in the "AI DJ Assistant" section
+3. Click "Configure AI" to enable intelligent mixing
+
+The AI assistant works in mock mode without an API key for testing and development.
 
 ## Future Enhancements
 
