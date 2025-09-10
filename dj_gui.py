@@ -377,7 +377,8 @@ class DJMixerGUI:
                     try:
                         self.root.after(0, self.update_track_status)
                         self.root.after(0, self.update_status_display)
-                    except:
+                    except (tk.TclError, RuntimeError):
+                        # GUI has been destroyed, stop updating
                         break
                 time.sleep(1)  # Update every second
         
