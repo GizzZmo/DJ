@@ -1,0 +1,35 @@
+# Development dependencies for the DJ Mixer project
+# Install with: pip install -r requirements-dev.txt
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+
+# Code Quality
+black>=23.0.0
+flake8>=6.0.0
+flake8-docstrings>=1.7.0
+flake8-import-order>=0.18.0
+mypy>=1.0.0
+
+# Security
+bandit>=1.7.0
+safety>=2.3.0
+
+# Documentation
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.2.0
+myst-parser>=1.0.0
+
+# Build and packaging
+build>=0.10.0
+twine>=4.0.0
+
+# Development tools
+pre-commit>=3.0.0
+tox>=4.0.0
+
+# Audio testing (for CI without hardware)
+# These are optional but help with testing
+pyfakefs>=5.0.0  # Mock filesystem for testing

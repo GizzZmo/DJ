@@ -1,0 +1,145 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dj-mixer"
+description = "A Python-based DJ Mixer for playback on multiple sound devices"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Jon Arve Ovesen", email = "jon@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Multimedia :: Sound/Audio :: Players",
+    "Topic :: Multimedia :: Sound/Audio :: Mixers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+keywords = ["dj", "mixer", "audio", "music", "crossfading", "sound", "devices"]
+requires-python = ">=3.7"
+dependencies = [
+    "pygame>=2.5.0",
+    "pydub>=0.25.1",
+]
+dynamic = ["version"]
+
+[project.urls]
+"Homepage" = "https://github.com/GizzZmo/DJ"
+"Bug Reports" = "https://github.com/GizzZmo/DJ/issues"
+"Source" = "https://github.com/GizzZmo/DJ"
+"Documentation" = "https://github.com/GizzZmo/DJ/blob/main/README.md"
+
+[project.scripts]
+dj-mixer = "dj_cli:main"
+dj-mixer-gui = "dj_gui:main"
+dj-mixer-test = "test_cli:main"
+dj-mixer-example = "example:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "bandit>=1.7.0",
+    "safety>=2.3.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.2.0",
+    "myst-parser>=1.0.0",
+]
+
+[tool.setuptools_scm]
+write_to = "_version.py"
+
+[tool.setuptools]
+py-modules = [
+    "dj_mixer",
+    "dj_cli",
+    "dj_gui",
+    "test_mixer",
+    "test_cli",
+    "test_gui",
+    "example",
+    "demo_gui",
+    "take_screenshot"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "E501", "W503"]
+per-file-ignores = [
+    "__init__.py:F401",
+    "test_*.py:F401,F811"
+]
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --tb=short"
+testpaths = [
+    ".",
+]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "test_*.py",
+    "setup.py",
+    "_version.py",
+    ".venv/*",
+    "build/*",
+    "dist/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.bandit]
+exclude_dirs = ["test_*.py"]
+skips = ["B101"]  # Skip assert_used test
