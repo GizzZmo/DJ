@@ -9,6 +9,7 @@ A Python-based DJ Mixer application for playback on multiple sound devices. This
 - **Crossfading**: Smooth transitions between tracks with adjustable crossfader
 - **Volume Control**: Independent volume control per track plus master volume
 - **Real-time Mixing**: Live control over playback and mixing parameters
+- **Graphical User Interface**: Professional DJ mixer GUI with visual controls
 - **Command-Line Interface**: Interactive CLI for easy mixer control
 - **Mock Testing**: Test functionality without audio hardware
 
@@ -25,7 +26,30 @@ cd DJ
 pip install -r requirements.txt
 ```
 
+*Note: For the GUI interface, tkinter is required. On most systems it's included with Python. If not available:*
+```bash
+# Ubuntu/Debian
+sudo apt-get install python3-tk
+
+# Other systems may require different packages
+```
+
 ## Quick Start
+
+### Using the Graphical User Interface
+
+Start the visual DJ mixer:
+```bash
+python dj_gui.py
+```
+
+The GUI provides:
+- **Dual Deck Controls**: Load and control two audio tracks independently
+- **Visual Crossfader**: Smooth transitions with real-time position display
+- **Volume Sliders**: Individual track volumes and master volume control
+- **Playback Controls**: Play, pause, stop buttons for each deck
+- **File Browser**: Easy track loading with standard file dialogs
+- **Status Monitor**: Real-time display of mixer status and track information
 
 ### Using the Command-Line Interface
 
@@ -80,6 +104,11 @@ Run the mock test to verify functionality:
 python test_mixer.py
 ```
 
+Test the GUI functionality:
+```bash
+python test_gui.py
+```
+
 ## Examples
 
 Run the example demo:
@@ -97,12 +126,34 @@ python example.py --info
 ```
 DJ/
 ├── dj_mixer.py      # Core DJ mixer functionality
+├── dj_gui.py        # Graphical user interface
 ├── dj_cli.py        # Interactive command-line interface
 ├── test_mixer.py    # Mock testing without audio hardware
+├── test_gui.py      # GUI functionality tests
 ├── example.py       # Example usage and demos
 ├── requirements.txt # Python dependencies
 └── README.md        # This file
 ```
+
+## GUI Interface
+
+The DJ Mixer includes a professional graphical interface built with tkinter that provides visual control over all mixer functions:
+
+### GUI Features
+- **Professional Layout**: Traditional DJ mixer design with dual decks and central crossfader
+- **File Management**: Easy track loading through standard file dialogs
+- **Visual Feedback**: Real-time status updates and visual indicators
+- **Touch-Friendly Controls**: Large buttons and sliders for easy operation
+- **Status Monitoring**: Comprehensive display of mixer state and track information
+
+### GUI Controls
+- **Initialize Button**: Start the audio mixer system
+- **Load Track Buttons**: Browse and load audio files for each deck
+- **Playback Controls**: Play, pause, and stop buttons for each deck
+- **Volume Sliders**: Independent volume control for each track and master output
+- **Crossfader Slider**: Smooth balance control between left and right decks
+- **Apply Crossfader**: Apply the crossfader effect to the loaded tracks
+- **Status Panel**: Real-time display of mixer status, track info, and system messages
 
 ## Audio Device Support
 
