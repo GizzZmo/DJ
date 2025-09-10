@@ -5,9 +5,7 @@ Supports loading audio files and mixing them across different output devices
 """
 
 import pygame
-import threading
-import time
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 from pathlib import Path
 
 

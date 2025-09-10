@@ -5,8 +5,6 @@ Provides interactive control over the mixer functionality
 """
 
 import cmd
-import os
-import sys
 from pathlib import Path
 from dj_mixer import DJMixer
 
