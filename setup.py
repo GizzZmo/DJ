@@ -22,6 +22,7 @@ setup(
     py_modules=[
         "dj_mixer",
         "dj_cli", 
+        "dj_gui",
         "test_mixer",
         "test_cli",
         "example"
@@ -46,6 +47,7 @@ setup(
     entry_points={
         "console_scripts": [
             "dj-mixer=dj_cli:main",
+            "dj-mixer-gui=dj_gui:main",
             "dj-mixer-test=test_cli:main",
             "dj-mixer-example=example:main",
         ],
