@@ -271,7 +271,7 @@ def test_mock_mixer():
     
     # Show available devices
     devices = mixer.get_audio_devices()
-    print(f"Available mock audio devices:")
+    print("Available mock audio devices:")
     for i, device in enumerate(devices):
         print(f"  {i+1}. {device}")
     print()

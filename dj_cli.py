@@ -135,8 +135,10 @@ class DJMixerCLI(cmd.Cmd):
         track_name = parts[0]
         try:
             volume = float(parts[1])
-            self.mixer.set_track_volume(track_name, volume)
-            print(f"✓ Set volume for '{track_name}' to {volume:.2f}")
+            if self.mixer.set_track_volume(track_name, volume):
+                print(f"✓ Set volume for '{track_name}' to {volume:.2f}")
+            else:
+                print(f"✗ Failed to set volume for '{track_name}' (track not found or invalid volume)")
         except ValueError:
             print("Volume must be a number between 0.0 and 1.0")
     
@@ -152,8 +154,10 @@ class DJMixerCLI(cmd.Cmd):
         
         try:
             volume = float(args)
-            self.mixer.set_master_volume(volume)
-            print(f"✓ Set master volume to {volume:.2f}")
+            if self.mixer.set_master_volume(volume):
+                print(f"✓ Set master volume to {volume:.2f}")
+            else:
+                print(f"✗ Failed to set master volume (invalid volume: {volume:.2f})")
         except ValueError:
             print("Volume must be a number between 0.0 and 1.0")
     
@@ -170,9 +174,11 @@ class DJMixerCLI(cmd.Cmd):
         
         try:
             position = float(args)
-            self.mixer.set_crossfader(position)
-            pos_desc = 'LEFT' if position < 0.3 else 'RIGHT' if position > 0.7 else 'CENTER'
-            print(f"✓ Set crossfader to {position:.2f} ({pos_desc})")
+            if self.mixer.set_crossfader(position):
+                pos_desc = 'LEFT' if position < 0.3 else 'RIGHT' if position > 0.7 else 'CENTER'
+                print(f"✓ Set crossfader to {position:.2f} ({pos_desc})")
+            else:
+                print(f"✗ Failed to set crossfader (invalid position: {position:.2f})")
         except ValueError:
             print("Position must be a number between 0.0 (full left) and 1.0 (full right)")
     
@@ -189,9 +195,11 @@ class DJMixerCLI(cmd.Cmd):
         
         left_track = parts[0]
         right_track = parts[1]
-        self.mixer.apply_crossfader(left_track, right_track)
-        pos = self.mixer.get_crossfader()
-        print(f"✓ Applied crossfader ({pos:.2f}) between '{left_track}' and '{right_track}'")
+        if self.mixer.apply_crossfader(left_track, right_track):
+            pos = self.mixer.get_crossfader()
+            print(f"✓ Applied crossfader ({pos:.2f}) between '{left_track}' and '{right_track}'")
+        else:
+            print(f"✗ Failed to apply crossfader (tracks '{left_track}' or '{right_track}' not found)")
     
     def do_status(self, args):
         """Show mixer status and loaded tracks"""

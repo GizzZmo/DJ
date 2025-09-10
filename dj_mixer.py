@@ -144,25 +144,35 @@ class DJMixer:
             return False
         return self.tracks[name].play(loops, fade_ms)
     
-    def stop_track(self, name: str, fade_ms: int = 0) -> None:
+    def stop_track(self, name: str, fade_ms: int = 0) -> bool:
         """Stop a track"""
-        if name in self.tracks:
-            self.tracks[name].stop(fade_ms)
+        if name not in self.tracks:
+            return False
+        self.tracks[name].stop(fade_ms)
+        return True
     
-    def pause_track(self, name: str) -> None:
+    def pause_track(self, name: str) -> bool:
         """Pause a track"""
-        if name in self.tracks:
-            self.tracks[name].pause()
+        if name not in self.tracks:
+            return False
+        self.tracks[name].pause()
+        return True
     
-    def unpause_track(self, name: str) -> None:
+    def unpause_track(self, name: str) -> bool:
         """Unpause a track"""
-        if name in self.tracks:
-            self.tracks[name].unpause()
+        if name not in self.tracks:
+            return False
+        self.tracks[name].unpause()
+        return True
     
-    def set_track_volume(self, name: str, volume: float) -> None:
+    def set_track_volume(self, name: str, volume: float) -> bool:
         """Set volume for a specific track"""
-        if name in self.tracks:
-            self.tracks[name].set_volume(volume)
+        if name not in self.tracks:
+            return False
+        if volume < 0.0 or volume > 1.0:
+            return False
+        self.tracks[name].set_volume(volume)
+        return True
     
     def get_track_volume(self, name: str) -> float:
         """Get volume for a specific track"""
@@ -170,27 +180,35 @@ class DJMixer:
             return self.tracks[name].get_volume()
         return 0.0
     
-    def set_crossfader(self, position: float) -> None:
+    def set_crossfader(self, position: float) -> bool:
         """Set crossfader position (0.0 = full left, 1.0 = full right)"""
+        if position < 0.0 or position > 1.0:
+            return False
         self.crossfader_position = max(0.0, min(1.0, position))
+        return True
     
     def get_crossfader(self) -> float:
         """Get crossfader position"""
         return self.crossfader_position
     
-    def apply_crossfader(self, left_track: str, right_track: str) -> None:
+    def apply_crossfader(self, left_track: str, right_track: str) -> bool:
         """Apply crossfader effect between two tracks"""
-        if left_track in self.tracks and right_track in self.tracks:
-            left_volume = (1.0 - self.crossfader_position) * self.master_volume
-            right_volume = self.crossfader_position * self.master_volume
-            
-            self.tracks[left_track].set_volume(left_volume)
-            self.tracks[right_track].set_volume(right_volume)
+        if left_track not in self.tracks or right_track not in self.tracks:
+            return False
+        left_volume = (1.0 - self.crossfader_position) * self.master_volume
+        right_volume = self.crossfader_position * self.master_volume
+        
+        self.tracks[left_track].set_volume(left_volume)
+        self.tracks[right_track].set_volume(right_volume)
+        return True
     
-    def set_master_volume(self, volume: float) -> None:
+    def set_master_volume(self, volume: float) -> bool:
         """Set master volume"""
+        if volume < 0.0 or volume > 1.0:
+            return False
         self.master_volume = max(0.0, min(1.0, volume))
         pygame.mixer.music.set_volume(self.master_volume)
+        return True
     
     def get_master_volume(self) -> float:
         """Get master volume"""
