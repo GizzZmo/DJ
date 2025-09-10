@@ -1,0 +1,123 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting google-generativeai
+  Downloading google_generativeai-0.8.5-py3-none-any.whl.metadata
+     - 3.9 kB ? 0:00:00
+Collecting google-ai-generativelanguage==0.6.15 (from google-generativeai)
+  Downloading google_ai_generativelanguage-0.6.15-py3-none-any.whl.metadata
+     - 5.7 kB ? 0:00:00
+Collecting google-api-core (from google-generativeai)
+  Downloading google_api_core-2.25.1-py3-none-any.whl.metadata
+     - 3.0 kB ? 0:00:00
+Collecting google-api-python-client (from google-generativeai)
+  Downloading google_api_python_client-2.181.0-py3-none-any.whl.metadata
+     - 7.0 kB ? 0:00:00
+Collecting google-auth>=2.15.0 (from google-generativeai)
+  Downloading google_auth-2.40.3-py2.py3-none-any.whl.metadata
+     - 6.2 kB ? 0:00:00
+Collecting protobuf (from google-generativeai)
+  Downloading protobuf-6.32.0-cp39-abi3-manylinux2014_x86_64.whl.metadata
+     - 593 bytes ? 0:00:00
+Collecting pydantic (from google-generativeai)
+  Downloading pydantic-2.11.7-py3-none-any.whl.metadata
+     - 68.0 kB 243.1 MB/s 0:00:00
+Collecting tqdm (from google-generativeai)
+  Downloading tqdm-4.67.1-py3-none-any.whl.metadata
+     - 57.7 kB 211.7 MB/s 0:00:00
+Requirement already satisfied: typing-extensions in /usr/lib/python3/dist-packages (from google-generativeai) (4.10.0)
+Collecting proto-plus<2.0.0dev,>=1.22.3 (from google-ai-generativelanguage==0.6.15->google-generativeai)
+  Downloading proto_plus-1.26.1-py3-none-any.whl.metadata
+     - 2.2 kB ? 0:00:00
+Collecting protobuf (from google-generativeai)
+  Downloading protobuf-5.29.5-cp38-abi3-manylinux2014_x86_64.whl.metadata
+     - 592 bytes ? 0:00:00
+Collecting googleapis-common-protos<2.0.0,>=1.56.2 (from google-api-core->google-generativeai)
+  Downloading googleapis_common_protos-1.70.0-py3-none-any.whl.metadata
+     - 9.3 kB ? 0:00:00
+Requirement already satisfied: requests<3.0.0,>=2.18.0 in /usr/lib/python3/dist-packages (from google-api-core->google-generativeai) (2.31.0)
+Collecting cachetools<6.0,>=2.0.0 (from google-auth>=2.15.0->google-generativeai)
+  Downloading cachetools-5.5.2-py3-none-any.whl.metadata
+     - 5.4 kB ? 0:00:00
+Requirement already satisfied: pyasn1-modules>=0.2.1 in /usr/lib/python3/dist-packages (from google-auth>=2.15.0->google-generativeai) (0.2.8)
+Collecting rsa<5,>=3.1.4 (from google-auth>=2.15.0->google-generativeai)
+  Downloading rsa-4.9.1-py3-none-any.whl.metadata
+     - 5.6 kB ? 0:00:00
+Requirement already satisfied: httplib2<1.0.0,>=0.19.0 in /usr/lib/python3/dist-packages (from google-api-python-client->google-generativeai) (0.20.4)
+Collecting google-auth-httplib2<1.0.0,>=0.2.0 (from google-api-python-client->google-generativeai)
+  Downloading google_auth_httplib2-0.2.0-py2.py3-none-any.whl.metadata
+     - 2.2 kB ? 0:00:00
+Collecting uritemplate<5,>=3.0.1 (from google-api-python-client->google-generativeai)
+  Downloading uritemplate-4.2.0-py3-none-any.whl.metadata
+     - 2.6 kB ? 0:00:00
+Collecting annotated-types>=0.6.0 (from pydantic->google-generativeai)
+  Downloading annotated_types-0.7.0-py3-none-any.whl.metadata
+     - 15.0 kB 111.8 MB/s 0:00:00
+Collecting pydantic-core==2.33.2 (from pydantic->google-generativeai)
+  Downloading pydantic_core-2.33.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+     - 6.8 kB ? 0:00:00
+Collecting typing-extensions (from google-generativeai)
+  Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata
+     - 3.3 kB ? 0:00:00
+Collecting typing-inspection>=0.4.0 (from pydantic->google-generativeai)
+  Downloading typing_inspection-0.4.1-py3-none-any.whl.metadata
+     - 2.6 kB ? 0:00:00
+Collecting grpcio<2.0.0,>=1.33.2 (from google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.10.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,!=2.8.*,!=2.9.*,<3.0.0dev,>=1.34.1->google-ai-generativelanguage==0.6.15->google-generativeai)
+  Downloading grpcio-1.74.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+     - 3.8 kB ? 0:00:00
+Collecting grpcio-status<2.0.0,>=1.33.2 (from google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.10.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,!=2.8.*,!=2.9.*,<3.0.0dev,>=1.34.1->google-ai-generativelanguage==0.6.15->google-generativeai)
+  Downloading grpcio_status-1.74.0-py3-none-any.whl.metadata
+     - 1.1 kB ? 0:00:00
+Requirement already satisfied: pyparsing!=3.0.0,!=3.0.1,!=3.0.2,!=3.0.3,<4,>=2.4.2 in /usr/lib/python3/dist-packages (from httplib2<1.0.0,>=0.19.0->google-api-python-client->google-generativeai) (3.1.1)
+Requirement already satisfied: pyasn1>=0.1.3 in /usr/lib/python3/dist-packages (from rsa<5,>=3.1.4->google-auth>=2.15.0->google-generativeai) (0.4.8)
+INFO: pip is looking at multiple versions of grpcio-status to determine which version is compatible with other requirements. This could take a while.
+  Downloading grpcio_status-1.73.1-py3-none-any.whl.metadata
+     - 1.1 kB ? 0:00:00
+  Downloading grpcio_status-1.73.0-py3-none-any.whl.metadata
+     - 1.1 kB ? 0:00:00
+  Downloading grpcio_status-1.72.2-py3-none-any.whl.metadata
+     - 1.1 kB ? 0:00:00
+  Downloading grpcio_status-1.72.1-py3-none-any.whl.metadata
+     - 1.1 kB ? 0:00:00
+  Downloading grpcio_status-1.71.2-py3-none-any.whl.metadata
+     - 1.1 kB ? 0:00:00
+Downloading google_generativeai-0.8.5-py3-none-any.whl
+   - 155.4 kB 156.5 MB/s 0:00:00
+Downloading google_ai_generativelanguage-0.6.15-py3-none-any.whl
+   - 1.3 MB 194.7 MB/s 0:00:00
+Downloading google_api_core-2.25.1-py3-none-any.whl
+   - 160.8 kB 149.9 MB/s 0:00:00
+Downloading google_auth-2.40.3-py2.py3-none-any.whl
+   - 216.1 kB 191.5 MB/s 0:00:00
+Downloading protobuf-5.29.5-cp38-abi3-manylinux2014_x86_64.whl
+   - 319.9 kB 165.7 MB/s 0:00:00
+Downloading google_api_python_client-2.181.0-py3-none-any.whl
+   \ 14.1 MB 189.2 MB/s 0:00:00
+Downloading pydantic-2.11.7-py3-none-any.whl
+   - 444.8 kB 208.3 MB/s 0:00:00
+Downloading pydantic_core-2.33.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+   - 2.0 MB 210.3 MB/s 0:00:00
+Downloading typing_extensions-4.15.0-py3-none-any.whl
+   - 44.6 kB 168.4 MB/s 0:00:00
+Downloading tqdm-4.67.1-py3-none-any.whl
+   - 78.5 kB 159.3 MB/s 0:00:00
+Downloading annotated_types-0.7.0-py3-none-any.whl
+   - 13.6 kB 72.2 MB/s 0:00:00
+Downloading cachetools-5.5.2-py3-none-any.whl
+   - 10.1 kB ? 0:00:00
+Downloading google_auth_httplib2-0.2.0-py2.py3-none-any.whl
+   - 9.3 kB ? 0:00:00
+Downloading googleapis_common_protos-1.70.0-py3-none-any.whl
+   - 294.5 kB 165.2 MB/s 0:00:00
+Downloading proto_plus-1.26.1-py3-none-any.whl
+   - 50.2 kB 208.3 MB/s 0:00:00
+Downloading rsa-4.9.1-py3-none-any.whl
+   - 34.7 kB 187.2 MB/s 0:00:00
+Downloading typing_inspection-0.4.1-py3-none-any.whl
+   - 14.6 kB 119.2 MB/s 0:00:00
+Downloading uritemplate-4.2.0-py3-none-any.whl
+   - 11.5 kB 27.2 MB/s 0:00:00
+Downloading grpcio-1.74.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+   - 6.2 MB 171.4 MB/s 0:00:00
+Downloading grpcio_status-1.71.2-py3-none-any.whl
+   - 14.4 kB 88.9 MB/s 0:00:00
+Installing collected packages: uritemplate, typing-extensions, tqdm, rsa, protobuf, grpcio, cachetools, annotated-types, typing-inspection, pydantic-core, proto-plus, googleapis-common-protos, google-auth, pydantic, grpcio-status, google-auth-httplib2, google-api-core, google-api-python-client, google-ai-generativelanguage, google-generativeai
+Successfully installed annotated-types-0.7.0 cachetools-5.5.2 google-ai-generativelanguage-0.6.15 google-api-core-2.25.1 google-api-python-client-2.181.0 google-auth-2.40.3 google-auth-httplib2-0.2.0 google-generativeai-0.8.5 googleapis-common-protos-1.70.0 grpcio-1.74.0 grpcio-status-1.71.2 proto-plus-1.26.1 protobuf-5.29.5 pydantic-2.11.7 pydantic-core-2.33.2 rsa-4.9.1 tqdm-4.67.1 typing-extensions-4.15.0 typing-inspection-0.4.1 uritemplate-4.2.0
