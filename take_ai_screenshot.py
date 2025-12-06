@@ -78,12 +78,8 @@ def create_gui_screenshot():
 def main():
     print("📸 Taking screenshot of AI-powered DJ GUI...")
     
-    # Install scrot for screenshots
-    try:
-        subprocess.run(['sudo', 'apt-get', 'install', '-y', 'scrot'], 
-                      check=True, stdout=subprocess.DEVNULL)
-    except Exception:
-        print("Failed to install scrot")
+    # scrot should already be installed in CI
+    # If not, we can skip this step gracefully
     
     if setup_virtual_display():
         print("✅ Virtual display setup complete")
