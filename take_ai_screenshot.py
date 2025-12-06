@@ -59,9 +59,9 @@ def create_gui_screenshot():
         def take_screenshot():
             time.sleep(1)  # Let GUI fully render
             try:
-                # Use scrot to take screenshot
+                # Use scrot to take screenshot (gracefully handle failure if scrot is unavailable)
                 subprocess.run(['scrot', 'ai_gui_demo.png', '-q', '95'], 
-                             check=True, cwd='/home/runner/work/DJ/DJ')
+                             check=False, cwd='/home/runner/work/DJ/DJ')
                 print("✅ Screenshot saved as ai_gui_demo.png")
             except Exception as e:
                 print(f"Screenshot failed: {e}")

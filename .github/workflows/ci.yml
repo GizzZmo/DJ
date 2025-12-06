@@ -133,7 +133,8 @@ jobs:
       with:
         name: gui-screenshots
         path: |
-          *.png
+          ai_gui_demo.png
+          gui_screenshot.png
           gui_demo.html
         retention-days: 30
     

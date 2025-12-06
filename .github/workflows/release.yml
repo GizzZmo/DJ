@@ -39,7 +39,7 @@ jobs:
       with:
         files: |
           dist/*
-          *.png
+          ai_gui_demo.png
           gui_demo.html
         body: |
           ## Changes in this release
