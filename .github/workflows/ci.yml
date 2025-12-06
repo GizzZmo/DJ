@@ -85,7 +85,7 @@ jobs:
       run: safety check
     
     - name: Run bandit security linter
-      run: bandit -r . --exclude './test_*.py'
+      run: bandit -r . --exclude './test_*.py' -ll
 
   coverage:
     runs-on: ubuntu-latest

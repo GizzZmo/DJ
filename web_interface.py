@@ -17,7 +17,7 @@ from pathlib import Path
 class DJMixerWebServer:
     """Web server for DJ Mixer with REST API and WebSocket support"""
     
-    def __init__(self, mixer, host: str = '0.0.0.0', port: int = 5000):
+    def __init__(self, mixer, host: str = '127.0.0.1', port: int = 5000):
         self.mixer = mixer
         self.host = host
         self.port = port
