@@ -469,6 +469,142 @@ class TestWaveformDisplay:
         assert len(cache.cache) == 0
 
 
+class TestDeviceRouting:
+    """Test device routing module"""
+    
+    def test_device_manager_initialization(self):
+        """Test device manager initialization"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        assert manager.initialized == False
+        assert len(manager.available_devices) == 0
+    
+    def test_mock_initialization(self):
+        """Test mock device initialization"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        assert manager.initialize(use_mock=True) == True
+        assert manager.initialized == True
+        assert len(manager.available_devices) > 0
+    
+    def test_get_devices(self):
+        """Test getting device list"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        
+        devices = manager.get_devices(output_only=True)
+        assert len(devices) > 0
+        assert all(d.max_output_channels > 0 for d in devices)
+    
+    def test_get_default_output(self):
+        """Test getting default output device"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        
+        default = manager.get_default_output_device()
+        assert default is not None
+        assert default.is_default_output == True
+    
+    def test_add_route(self):
+        """Test adding audio route"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        
+        devices = manager.get_devices()
+        success = manager.add_route("deck1", devices[0].index, [0, 1])
+        
+        assert success == True
+        assert "deck1" in manager.routes
+    
+    def test_remove_route(self):
+        """Test removing audio route"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        
+        devices = manager.get_devices()
+        manager.add_route("deck1", devices[0].index)
+        
+        assert manager.remove_route("deck1") == True
+        assert "deck1" not in manager.routes
+    
+    def test_enable_disable_route(self):
+        """Test enabling/disabling routes"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        
+        devices = manager.get_devices()
+        manager.add_route("deck1", devices[0].index)
+        
+        assert manager.enable_route("deck1", False) == True
+        route = manager.get_route("deck1")
+        assert route.enabled == False
+        
+        assert manager.enable_route("deck1", True) == True
+        route = manager.get_route("deck1")
+        assert route.enabled == True
+    
+    def test_setup_default_routing(self):
+        """Test default routing setup"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        
+        assert manager.setup_default_routing() == True
+        assert "master" in manager.routes
+    
+    def test_setup_dj_routing(self):
+        """Test DJ routing setup"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        
+        assert manager.setup_dj_routing() == True
+        assert "master" in manager.routes
+        assert "headphone_cue" in manager.routes
+    
+    def test_get_asio_devices(self):
+        """Test getting ASIO devices"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        
+        asio_devices = manager.get_asio_devices()
+        assert len(asio_devices) > 0
+        assert all('ASIO' in d.host_api.upper() for d in asio_devices)
+    
+    def test_routing_info(self):
+        """Test getting routing information"""
+        from device_routing import AudioDeviceManager
+        
+        manager = AudioDeviceManager()
+        manager.initialize(use_mock=True)
+        manager.setup_dj_routing()
+        
+        info = manager.get_routing_info()
+        
+        assert 'initialized' in info
+        assert 'devices' in info
+        assert 'routes' in info
+        assert info['initialized'] == True
+        assert len(info['devices']) > 0
+        assert len(info['routes']) > 0
+
+
 def run_all_tests():
     """Run all tests"""
     print("=" * 60)
