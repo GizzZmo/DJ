@@ -12,11 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
-        exclude:
-          # Exclude Python 3.7 on newer OS versions due to compatibility
-          - os: macos-latest
-            python-version: '3.7'
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
     - uses: actions/checkout@v6
@@ -30,7 +26,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libasound2-dev portaudio19-dev
+        sudo apt-get install -y libasound2-dev portaudio19-dev xvfb
     
     - name: Install system dependencies (macOS)
       if: runner.os == 'macOS'
@@ -54,7 +50,12 @@ jobs:
     
     - name: Test with pytest
       run: |
-        pytest -v --tb=short
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          xvfb-run -a pytest -v --tb=short
+        else
+          pytest -v --tb=short
+        fi
+      shell: bash
         
     - name: Test CLI interface
       run: |
@@ -84,7 +85,7 @@ jobs:
       run: safety check
     
     - name: Run bandit security linter
-      run: bandit -r . -x test_*.py
+      run: bandit -r . --exclude './test_*.py'
 
   coverage:
     runs-on: ubuntu-latest
@@ -99,7 +100,7 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libasound2-dev portaudio19-dev
+        sudo apt-get install -y libasound2-dev portaudio19-dev xvfb scrot
     
     - name: Install dependencies
       run: |
@@ -109,7 +110,33 @@ jobs:
     
     - name: Run tests with coverage
       run: |
-        pytest --cov=. --cov-report=xml --cov-report=html
+        xvfb-run -a pytest --cov=. --cov-report=xml --cov-report=html
+    
+    - name: Take GUI screenshot
+      if: always()
+      run: |
+        xvfb-run -a python take_ai_screenshot.py || true
+    
+    - name: Upload coverage reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-reports
+        path: |
+          coverage.xml
+          htmlcov/
+        retention-days: 30
+    
+    - name: Upload screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: gui-screenshots
+        path: |
+          ai_gui_demo.png
+          gui_screenshot.png
+          gui_demo.html
+        retention-days: 30
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
