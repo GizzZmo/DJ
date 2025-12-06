@@ -16,21 +16,31 @@ jobs:
       with:
         python-version: '3.11'
     
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libasound2-dev portaudio19-dev xvfb scrot
+    
     - name: Install build dependencies
       run: |
         python -m pip install --upgrade pip
         pip install build twine
+        pip install -r requirements.txt
     
     - name: Build package
       run: python -m build
     
+    - name: Generate screenshots
+      run: |
+        xvfb-run -a python take_ai_screenshot.py || true
+    
     - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        files: |
+          dist/*
+          *.png
+          gui_demo.html
         body: |
           ## Changes in this release
           
@@ -42,7 +52,11 @@ jobs:
           pip install dj-mixer==${{ github.ref_name }}
           ```
           
-          Or download the source code below.
+          Or download the source code and wheel files below.
+          
+          ## Screenshots
+          
+          Check the release assets for screenshots of the DJ Mixer GUI.
         draft: false
         prerelease: false
     

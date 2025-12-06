@@ -12,6 +12,11 @@ from pathlib import Path
 def setup_virtual_display():
     """Setup virtual display for GUI screenshot"""
     try:
+        # Check if DISPLAY is already set (like when running with xvfb-run)
+        if 'DISPLAY' in os.environ:
+            print(f"Using existing display: {os.environ['DISPLAY']}")
+            return True
+            
         # Start Xvfb virtual display
         subprocess.Popen(['Xvfb', ':99', '-screen', '0', '1400x900x24'], 
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
