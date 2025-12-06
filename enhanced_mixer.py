@@ -102,11 +102,17 @@ class EnhancedDJMixer(DJMixer):
         # For now, use mock beat detection (would need actual audio data)
         # In a real implementation, we'd read the audio file and analyze it
         
-        # Mock beat info
+        # Mock beat info - example 128 BPM track
+        MOCK_BPM = 128.0
+        BEAT_INTERVAL = 60.0 / MOCK_BPM  # 0.46875 seconds per beat
+        
+        # Generate mock beat positions
+        mock_beat_positions = [i * BEAT_INTERVAL for i in range(8)]
+        
         beat_info = BeatInfo(
-            bpm=128.0,
-            beat_positions=[0.0, 0.47, 0.94, 1.41],  # Example beats
-            beat_grid=[0.0, 0.47, 0.94, 1.41, 1.88],
+            bpm=MOCK_BPM,
+            beat_positions=mock_beat_positions[:4],
+            beat_grid=mock_beat_positions[:5],
             confidence=0.85,
             first_beat=0.0
         )

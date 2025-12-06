@@ -26,7 +26,10 @@ class DJMixerWebServer:
         self.app = Flask(__name__, 
                         template_folder='web/templates',
                         static_folder='web/static')
-        self.app.config['SECRET_KEY'] = 'dj-mixer-secret-key-2024'
+        # Use environment variable for secret key in production
+        import os
+        self.app.config['SECRET_KEY'] = os.environ.get('DJ_MIXER_SECRET_KEY', 
+                                                       'dj-mixer-dev-key-change-in-production')
         
         # Enable CORS
         CORS(self.app)

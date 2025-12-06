@@ -354,8 +354,8 @@ class AudioDeviceManager:
         if self.pyaudio_instance and not self.use_mock:
             try:
                 self.pyaudio_instance.terminate()
-            except:
-                pass
+            except Exception as e:
+                print(f"Error during PyAudio cleanup: {e}")
         
         self.pyaudio_instance = None
         self.initialized = False

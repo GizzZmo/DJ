@@ -87,6 +87,7 @@ class WaveformGenerator:
             
         except ImportError:
             print("Waveform generation from file requires pydub")
+            print("Install with: pip install pydub")
             return np.array([]), np.array([])
         except Exception as e:
             print(f"Error generating waveform from file: {e}")
