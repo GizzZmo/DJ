@@ -472,7 +472,7 @@ DJ/
 
 ## Requirements (Updated)
 
-- Python 3.7+
+- Python 3.9+ (Note: Python 3.8 is not supported due to google-generativeai dependency)
 - pygame >= 2.5.0
 - pydub >= 0.25.1
 - numpy >= 1.24.0 🆕

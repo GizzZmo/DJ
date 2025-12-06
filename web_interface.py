@@ -390,21 +390,21 @@ def create_web_templates():
 </head>
 <body>
     <div class="connection-status" id="connectionStatus">Connected</div>
-    
+
     <div class="container">
         <h1>🎧 DJ MIXER WEB INTERFACE 🎧</h1>
-        
+
         <div class="mixer-panel">
             <div class="master-controls">
                 <button class="init-button" onclick="initializeMixer()">Initialize Mixer</button>
                 <div class="slider-container" style="flex: 1; margin-left: 30px;">
                     <label>Master Volume: <span id="masterVolumeValue">1.0</span></label>
-                    <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="1.0" 
+                    <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="1.0"
                            oninput="setMasterVolume(this.value)">
                 </div>
             </div>
         </div>
-        
+
         <div class="mixer-panel">
             <div class="decks">
                 <!-- Deck 1 -->
@@ -422,7 +422,7 @@ def create_web_templates():
                     </div>
                     <div class="status" id="deck1Status">Status: Stopped</div>
                 </div>
-                
+
                 <!-- Crossfader -->
                 <div class="crossfader-section">
                     <h2>CROSSFADER</h2>
@@ -433,7 +433,7 @@ def create_web_templates():
                     </div>
                     <button onclick="applyCrossfader()">Apply Crossfader</button>
                 </div>
-                
+
                 <!-- Deck 2 -->
                 <div class="deck">
                     <h2>DECK 2</h2>
@@ -452,75 +452,75 @@ def create_web_templates():
             </div>
         </div>
     </div>
-    
+
     <script>
         const socket = io();
-        
+
         socket.on('connect', () => {
             console.log('Connected to server');
             document.getElementById('connectionStatus').textContent = 'Connected';
             document.getElementById('connectionStatus').classList.remove('disconnected');
         });
-        
+
         socket.on('disconnect', () => {
             console.log('Disconnected from server');
             document.getElementById('connectionStatus').textContent = 'Disconnected';
             document.getElementById('connectionStatus').classList.add('disconnected');
         });
-        
+
         socket.on('status_update', (status) => {
             updateUI(status);
         });
-        
+
         function updateUI(status) {
             // Update master volume
             document.getElementById('masterVolume').value = status.master_volume;
             document.getElementById('masterVolumeValue').textContent = status.master_volume.toFixed(2);
-            
+
             // Update crossfader
             document.getElementById('crossfader').value = status.crossfader;
             document.getElementById('crossfaderValue').textContent = status.crossfader.toFixed(2);
-            
+
             // Update deck statuses
             ['deck1', 'deck2'].forEach(deck => {
                 if (status.tracks[deck]) {
                     const volume = status.tracks[deck].volume;
                     const playing = status.tracks[deck].playing;
-                    
+
                     document.getElementById(deck + 'Volume').value = volume;
                     document.getElementById(deck + 'VolumeValue').textContent = volume.toFixed(2);
-                    
+
                     const statusEl = document.getElementById(deck + 'Status');
                     statusEl.textContent = 'Status: ' + (playing ? 'Playing' : 'Stopped');
                     statusEl.className = 'status ' + (playing ? 'playing' : '');
                 }
             });
         }
-        
+
         async function initializeMixer() {
             const response = await fetch('/api/initialize', { method: 'POST' });
             const data = await response.json();
             console.log('Initialize:', data);
         }
-        
+
         async function playTrack(deck) {
             const response = await fetch(`/api/play/${deck}`, { method: 'POST' });
             const data = await response.json();
             console.log('Play:', data);
         }
-        
+
         async function pauseTrack(deck) {
             const response = await fetch(`/api/pause/${deck}`, { method: 'POST' });
             const data = await response.json();
             console.log('Pause:', data);
         }
-        
+
         async function stopTrack(deck) {
             const response = await fetch(`/api/stop/${deck}`, { method: 'POST' });
             const data = await response.json();
             console.log('Stop:', data);
         }
-        
+
         async function setVolume(deck, volume) {
             document.getElementById(deck + 'VolumeValue').textContent = parseFloat(volume).toFixed(2);
             const response = await fetch(`/api/volume/${deck}`, {
@@ -529,7 +529,7 @@ def create_web_templates():
                 body: JSON.stringify({ volume: parseFloat(volume) })
             });
         }
-        
+
         async function setCrossfader(position) {
             document.getElementById('crossfaderValue').textContent = parseFloat(position).toFixed(2);
             const response = await fetch('/api/crossfader', {
@@ -538,13 +538,13 @@ def create_web_templates():
                 body: JSON.stringify({ position: parseFloat(position) })
             });
         }
-        
+
         async function applyCrossfader() {
             const response = await fetch('/api/crossfader/apply', { method: 'POST' });
             const data = await response.json();
             console.log('Apply crossfader:', data);
         }
-        
+
         async function setMasterVolume(volume) {
             document.getElementById('masterVolumeValue').textContent = parseFloat(volume).toFixed(2);
             const response = await fetch('/api/master-volume', {
@@ -553,7 +553,7 @@ def create_web_templates():
                 body: JSON.stringify({ volume: parseFloat(volume) })
             });
         }
-        
+
         // Request status updates
         setInterval(() => {
             socket.emit('request_status');
