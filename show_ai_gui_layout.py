@@ -3,6 +3,7 @@
 Generate a visual representation of the new AI-powered GUI
 """
 
+
 def create_ascii_gui_layout():
     """Create ASCII art representation of the new GUI layout"""
     layout = """
@@ -60,6 +61,7 @@ def create_ascii_gui_layout():
     """
     return layout
 
+
 def create_feature_summary():
     """Create a summary of new AI features"""
     features = """
@@ -112,11 +114,13 @@ def create_feature_summary():
     """
     return features
 
+
 def main():
     print("🎨 AI-Powered DJ Mixer - Visual Layout")
     print(create_ascii_gui_layout())
     print("\n" * 2)
     print(create_feature_summary())
+
 
 if __name__ == "__main__":
     main()
