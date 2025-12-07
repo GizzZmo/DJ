@@ -87,7 +87,7 @@ def test_gui_layout():
 
         # Check window properties
         assert (
-            app.root.title() == "DJ Mixer - Multi-Device Audio Mixing System"
+            app.root.title() == "DJ Mixer - AI-Powered Multi-Device Audio Mixing System"
         ), "Window title incorrect"
 
         print("✓ GUI layout test passed")
