@@ -252,6 +252,11 @@ class MockDJMixerCLI(cmd.Cmd):
         """Exit the mock DJ mixer (same as quit)"""
         return self.do_quit(args)
 
+    def do_EOF(self, args):
+        """Handle Ctrl+D"""
+        print()
+        return self.do_quit(args)
+
 
 def main():
     """Main entry point for the mock CLI"""

@@ -1,5 +1,9 @@
 # DJ Mixer
 
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-latest-E95420?logo=ubuntu&logoColor=white)](https://github.com/GizzZmo/DJ/actions/workflows/ci.yml)
+[![macOS](https://img.shields.io/badge/macOS-latest-000000?logo=apple&logoColor=white)](https://github.com/GizzZmo/DJ/actions/workflows/ci.yml)
+[![Windows](https://img.shields.io/badge/Windows-latest-0078D6?logo=windows&logoColor=white)](https://github.com/GizzZmo/DJ/actions/workflows/ci.yml)
+
 A Python-based DJ Mixer application for playback on multiple sound devices. This mixer supports loading audio files, controlling volume levels, crossfading between tracks, and managing playback across different audio outputs.
 
 ## Features
