@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 """
-Enhanced DJ Mixer with all advanced features
+Enhanced DJ Mixer with all advanced features.
+
 Integrates audio effects, beat detection, MIDI, recording, and more
 """
 
 from typing import Dict, List, Optional
-from pathlib import Path
-import numpy as np
 
 from dj_mixer import DJMixer, AudioTrack
 from audio_effects import AudioEffects
 from beat_detection import BeatDetector, AutoSync, BeatInfo
 from playlist_manager import PlaylistManager, Playlist
 from midi_controller import MIDIController, MockMIDIController
-from recording import AudioRecorder, RecordingSettings
+from recording import AudioRecorder
 from waveform_display import WaveformCache
 from pyaudio_mixer import PyAudioMixer
 
@@ -519,14 +518,18 @@ class EnhancedDJMixer(DJMixer):
         for track_name in self.get_loaded_tracks():
             status["tracks"][track_name] = {
                 "volume": self.get_track_volume(track_name),
-                "playing": self.is_track_playing(track_name) if not self.use_pyaudio else False,
+                "playing": (
+                    self.is_track_playing(track_name) if not self.use_pyaudio else False
+                ),
                 "effects_enabled": False,
             }
 
             if not self.use_pyaudio:
                 track = self.tracks.get(track_name)
                 if isinstance(track, EnhancedAudioTrack):
-                    status["tracks"][track_name]["effects_enabled"] = track.effects_enabled
+                    status["tracks"][track_name][
+                        "effects_enabled"
+                    ] = track.effects_enabled
 
             # Add beat info
             beat_info = self.beat_info.get(track_name)

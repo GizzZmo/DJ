@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Demo of PyAudio with ASIO driver support in DJ Mixer
+Demo of PyAudio with ASIO driver support in DJ Mixer.
+
 Demonstrates the new PyAudio integration and ASIO device selection
 """
 
@@ -8,7 +9,7 @@ from enhanced_mixer import EnhancedDJMixer
 
 
 def demo_pyaudio_asio():
-    """Demo PyAudio with ASIO support"""
+    """Demo PyAudio with ASIO support."""
     print("=" * 70)
     print("DJ Mixer - PyAudio with ASIO Driver Support Demo")
     print("=" * 70)
@@ -39,9 +40,7 @@ def demo_pyaudio_asio():
         if "audio_device" in status:
             print(f"  Active Device: {status['audio_device']['name']}")
             print(f"  Host API: {status['audio_device']['host_api']}")
-            print(
-                f"  Sample Rate: {status['audio_device']['sample_rate']} Hz"
-            )
+            print(f"  Sample Rate: {status['audio_device']['sample_rate']} Hz")
             print(f"  Channels: {status['audio_device']['channels']}")
 
         # Test controls
@@ -83,9 +82,7 @@ def demo_pyaudio_asio():
         if "audio_device" in status:
             print(f"  Device: {status['audio_device']['name']}")
             print(f"  Host API: {status['audio_device']['host_api']}")
-            print(
-                f"  Sample Rate: {status['audio_device']['sample_rate']} Hz"
-            )
+            print(f"  Sample Rate: {status['audio_device']['sample_rate']} Hz")
             print(f"  Channels: {status['audio_device']['channels']}")
 
             # Check if ASIO is being used
@@ -124,7 +121,8 @@ def demo_pyaudio_asio():
     print("\n" + "=" * 70)
     print("Key Benefits of PyAudio with ASIO")
     print("=" * 70)
-    print("""
+    print(
+        """
   1. Professional Audio Interfaces
      - Support for ASIO drivers
      - Low-latency audio processing
@@ -144,12 +142,14 @@ def demo_pyaudio_asio():
      - Reduced audio latency with ASIO
      - Real-time audio processing
      - Professional DJ setups
-""")
+"""
+    )
 
     print("=" * 70)
     print("Usage Examples")
     print("=" * 70)
-    print("""
+    print(
+        """
   # Use PyAudio with default output
   mixer = EnhancedDJMixer(use_pyaudio=True)
   mixer.initialize()
@@ -166,7 +166,8 @@ def demo_pyaudio_asio():
   asio_devices = mixer.get_asio_devices()
   for device in asio_devices:
       print(f"{device.name} - {device.host_api}")
-""")
+"""
+    )
 
     print("\n" + "=" * 70)
     print("✓ PyAudio/ASIO Demo Complete")

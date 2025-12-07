@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-PyAudio-based DJ Mixer with ASIO driver support
+PyAudio-based DJ Mixer with ASIO driver support.
+
 Provides professional audio interface control with low-latency ASIO support
 """
 
-import numpy as np
-from typing import Dict, List, Optional, Callable
-from pathlib import Path
 import threading
-import time
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import numpy as np
 from pydub import AudioSegment
 
 from device_routing import AudioDeviceManager, AudioDevice
@@ -246,9 +247,7 @@ class PyAudioMixer:
                 return self.initialize(device_index=device_index, use_asio=use_asio)
             return False
 
-    def _audio_callback(
-        self, in_data, frame_count, time_info, status
-    ) -> tuple:
+    def _audio_callback(self, in_data, frame_count, time_info, status) -> tuple:
         """PyAudio stream callback for real-time audio mixing"""
         with self.lock:
             # Initialize output buffer
@@ -435,9 +434,7 @@ def demo_pyaudio_mixer():
     for device in devices:
         asio_marker = " [ASIO]" if "ASIO" in device.host_api else ""
         default_marker = " [DEFAULT]" if device.is_default_output else ""
-        print(
-            f"{device.index}: {device.name}{asio_marker}{default_marker}"
-        )
+        print(f"{device.index}: {device.name}{asio_marker}{default_marker}")
 
     # Show ASIO devices specifically
     print("\n--- ASIO Devices ---")

@@ -13,14 +13,14 @@ class TestEnhancedMixerPyAudio:
     def test_initialization_pygame_mode(self):
         """Test initialization in pygame mode (default)"""
         mixer = EnhancedDJMixer()
-        assert mixer.use_pyaudio == False
-        assert mixer.use_asio == False
+        assert mixer.use_pyaudio  is False
+        assert mixer.use_asio  is False
         assert mixer.pyaudio_mixer is None
 
     def test_initialization_pyaudio_mode(self):
         """Test initialization in PyAudio mode"""
         mixer = EnhancedDJMixer(use_pyaudio=True)
-        assert mixer.use_pyaudio == True
+        assert mixer.use_pyaudio  is True
         # pyaudio_mixer is created during initialize(), not __init__()
         mixer.initialize()
         assert mixer.pyaudio_mixer is not None
@@ -29,22 +29,22 @@ class TestEnhancedMixerPyAudio:
     def test_initialization_asio_mode(self):
         """Test initialization with ASIO preference"""
         mixer = EnhancedDJMixer(use_pyaudio=True, use_asio=True)
-        assert mixer.use_pyaudio == True
-        assert mixer.use_asio == True
+        assert mixer.use_pyaudio  is True
+        assert mixer.use_asio  is True
 
     def test_initialize_pyaudio(self):
         """Test initializing PyAudio mixer"""
         mixer = EnhancedDJMixer(use_pyaudio=True)
         # Will use mock mode since we don't have real audio devices in CI
-        assert mixer.initialize() == True
-        assert mixer.is_initialized == True
+        assert mixer.initialize()  is True
+        assert mixer.is_initialized  is True
         mixer.cleanup()
 
     def test_initialize_with_asio(self):
         """Test initializing with ASIO"""
         mixer = EnhancedDJMixer(use_pyaudio=True, use_asio=True)
-        assert mixer.initialize() == True
-        assert mixer.is_initialized == True
+        assert mixer.initialize()  is True
+        assert mixer.is_initialized  is True
 
         # Check that ASIO device was selected (if available in mock mode)
         status = mixer.get_mixer_status()
@@ -84,8 +84,8 @@ class TestEnhancedMixerPyAudio:
         mixer.initialize()
 
         status = mixer.get_mixer_status()
-        assert status["use_pyaudio"] == True
-        assert status["use_asio"] == True
+        assert status["use_pyaudio"]  is True
+        assert status["use_asio"]  is True
         assert "audio_device" in status
         assert "name" in status["audio_device"]
         assert "host_api" in status["audio_device"]
@@ -98,11 +98,11 @@ class TestEnhancedMixerPyAudio:
         mixer.initialize()
 
         # Test volume control
-        assert mixer.set_master_volume(0.7) == True
+        assert mixer.set_master_volume(0.7)  is True
         assert mixer.get_master_volume() == 0.7
 
         # Test crossfader
-        assert mixer.set_crossfader(0.3) == True
+        assert mixer.set_crossfader(0.3)  is True
         assert mixer.get_crossfader() == 0.3
 
         mixer.cleanup()
@@ -115,13 +115,13 @@ class TestEnhancedMixerPyAudio:
 
         # Verify cleanup
         if mixer.pyaudio_mixer:
-            assert mixer.pyaudio_mixer.is_running == False
+            assert mixer.pyaudio_mixer.is_running  is False
 
     def test_pygame_mode_still_works(self):
         """Test that pygame mode still works (backwards compatibility)"""
         mixer = EnhancedDJMixer(use_pyaudio=False)
         # Don't initialize pygame in CI, just test configuration
-        assert mixer.use_pyaudio == False
+        assert mixer.use_pyaudio  is False
         assert mixer.pyaudio_mixer is None
 
 

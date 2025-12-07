@@ -19,15 +19,15 @@ class TestPyAudioTrack:
         """Test track initialization"""
         track = PyAudioTrack("test.wav", sample_rate=44100)
         assert track.sample_rate == 44100
-        assert track.is_loaded == False
-        assert track.is_playing == False
+        assert track.is_loaded is False
+        assert track.is_playing is False
         assert track.volume == 1.0
 
     def test_load_nonexistent_file(self):
         """Test loading nonexistent file"""
         track = PyAudioTrack("nonexistent.wav")
-        assert track.load() == False
-        assert track.is_loaded == False
+        assert track.load() is False
+        assert track.is_loaded is False
 
     def test_load_valid_file(self):
         """Test loading valid audio file"""
@@ -46,8 +46,8 @@ class TestPyAudioTrack:
                 wav_file.writeframes(samples.tobytes())
 
             track = PyAudioTrack(temp_path)
-            assert track.load() == True
-            assert track.is_loaded == True
+            assert track.load() is True
+            assert track.is_loaded is True
             assert track.duration > 0
 
         finally:
@@ -70,7 +70,7 @@ class TestPyAudioTrack:
     def test_play_without_loading(self):
         """Test playing without loading"""
         track = PyAudioTrack("test.wav")
-        assert track.play() == False
+        assert track.play() is False
 
     def test_get_audio_chunk_not_loaded(self):
         """Test getting chunk when not loaded"""
@@ -96,20 +96,20 @@ class TestPyAudioMixer:
         mixer = PyAudioMixer(use_mock=True)
         assert mixer.sample_rate == 44100
         assert mixer.buffer_size == 512
-        assert mixer.is_initialized == False
+        assert mixer.is_initialized is False
 
     def test_initialize_mixer(self):
         """Test initializing the mixer"""
         mixer = PyAudioMixer(use_mock=True)
-        assert mixer.initialize() == True
-        assert mixer.is_initialized == True
+        assert mixer.initialize() is True
+        assert mixer.is_initialized is True
         mixer.cleanup()
 
     def test_initialize_with_asio(self):
         """Test initializing with ASIO preference"""
         mixer = PyAudioMixer(use_mock=True)
-        assert mixer.initialize(use_asio=True) == True
-        assert mixer.is_initialized == True
+        assert mixer.initialize(use_asio=True) is True
+        assert mixer.is_initialized is True
         # Check that an ASIO device was selected
         assert "ASIO" in mixer.output_device.host_api
         mixer.cleanup()
@@ -117,13 +117,13 @@ class TestPyAudioMixer:
     def test_load_track_not_initialized(self):
         """Test loading track without initialization"""
         mixer = PyAudioMixer(use_mock=True)
-        assert mixer.load_track("deck1", "test.wav") == False
+        assert mixer.load_track("deck1", "test.wav") is False
 
     def test_load_track_invalid_file(self):
         """Test loading nonexistent file"""
         mixer = PyAudioMixer(use_mock=True)
         mixer.initialize()
-        assert mixer.load_track("deck1", "nonexistent.wav") == False
+        assert mixer.load_track("deck1", "nonexistent.wav") is False
         mixer.cleanup()
 
     def test_get_loaded_tracks(self):
@@ -137,28 +137,28 @@ class TestPyAudioMixer:
         """Test playing nonexistent track"""
         mixer = PyAudioMixer(use_mock=True)
         mixer.initialize()
-        assert mixer.play_track("nonexistent") == False
+        assert mixer.play_track("nonexistent") is False
         mixer.cleanup()
 
     def test_stop_track(self):
         """Test stopping track"""
         mixer = PyAudioMixer(use_mock=True)
         mixer.initialize()
-        assert mixer.stop_track("nonexistent") == False
+        assert mixer.stop_track("nonexistent") is False
         mixer.cleanup()
 
     def test_pause_track(self):
         """Test pausing track"""
         mixer = PyAudioMixer(use_mock=True)
         mixer.initialize()
-        assert mixer.pause_track("nonexistent") == False
+        assert mixer.pause_track("nonexistent") is False
         mixer.cleanup()
 
     def test_unpause_track(self):
         """Test unpausing track"""
         mixer = PyAudioMixer(use_mock=True)
         mixer.initialize()
-        assert mixer.unpause_track("nonexistent") == False
+        assert mixer.unpause_track("nonexistent") is False
         mixer.cleanup()
 
     def test_set_track_volume(self):
@@ -167,11 +167,11 @@ class TestPyAudioMixer:
         mixer.initialize()
 
         # Track doesn't exist
-        assert mixer.set_track_volume("nonexistent", 0.5) == False
+        assert mixer.set_track_volume("nonexistent", 0.5) is False
 
         # Invalid volume
-        assert mixer.set_track_volume("deck1", 1.5) == False
-        assert mixer.set_track_volume("deck1", -0.5) == False
+        assert mixer.set_track_volume("deck1", 1.5) is False
+        assert mixer.set_track_volume("deck1", -0.5) is False
 
         mixer.cleanup()
 
@@ -188,12 +188,12 @@ class TestPyAudioMixer:
         mixer = PyAudioMixer(use_mock=True)
         mixer.initialize()
 
-        assert mixer.set_master_volume(0.8) == True
+        assert mixer.set_master_volume(0.8) is True
         assert mixer.get_master_volume() == 0.8
 
         # Test clamping
-        assert mixer.set_master_volume(1.5) == False
-        assert mixer.set_master_volume(-0.5) == False
+        assert mixer.set_master_volume(1.5) is False
+        assert mixer.set_master_volume(-0.5) is False
 
         mixer.cleanup()
 
@@ -202,15 +202,15 @@ class TestPyAudioMixer:
         mixer = PyAudioMixer(use_mock=True)
         mixer.initialize()
 
-        assert mixer.set_crossfader(0.3) == True
+        assert mixer.set_crossfader(0.3) is True
         assert mixer.get_crossfader() == 0.3
 
-        assert mixer.set_crossfader(0.7) == True
+        assert mixer.set_crossfader(0.7) is True
         assert mixer.get_crossfader() == 0.7
 
         # Test clamping
-        assert mixer.set_crossfader(1.5) == False
-        assert mixer.set_crossfader(-0.5) == False
+        assert mixer.set_crossfader(1.5) is False
+        assert mixer.set_crossfader(-0.5) is False
 
         mixer.cleanup()
 
@@ -220,7 +220,7 @@ class TestPyAudioMixer:
         mixer.initialize()
 
         # Tracks don't exist
-        assert mixer.apply_crossfader("deck1", "deck2") == False
+        assert mixer.apply_crossfader("deck1", "deck2") is False
 
         mixer.cleanup()
 
@@ -251,7 +251,7 @@ class TestPyAudioMixer:
         mixer = PyAudioMixer(use_mock=True)
         mixer.initialize()
         mixer.cleanup()
-        assert mixer.is_running == False
+        assert mixer.is_running is False
 
 
 def run_all_tests():
