@@ -59,7 +59,7 @@ jobs:
         
     - name: Test CLI interface
       run: |
-        python test_cli.py --help || true
+        echo "" | python test_cli.py
         
     - name: Test mixer without audio
       run: |
