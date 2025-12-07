@@ -60,6 +60,9 @@ jobs:
     - name: Test CLI interface
       run: |
         echo "" | python test_cli.py
+      env:
+        PYTHONIOENCODING: utf-8
+        PYTHONUTF8: 1
         
     - name: Test mixer without audio
       run: |
