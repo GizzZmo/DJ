@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """
-Enhanced DJ Mixer with all advanced features
+Enhanced DJ Mixer with all advanced features.
+
 Integrates audio effects, beat detection, MIDI, recording, and more
 """
 
 from typing import Dict, List, Optional
-from pathlib import Path
-import numpy as np
 
 from dj_mixer import DJMixer, AudioTrack
 from audio_effects import AudioEffects
 from beat_detection import BeatDetector, AutoSync, BeatInfo
 from playlist_manager import PlaylistManager, Playlist
 from midi_controller import MIDIController, MockMIDIController
-from recording import AudioRecorder, RecordingSettings
+from recording import AudioRecorder
 from waveform_display import WaveformCache
+from pyaudio_mixer import PyAudioMixer
 
 
 class EnhancedAudioTrack(AudioTrack):
@@ -67,8 +67,26 @@ class EnhancedDJMixer(DJMixer):
         size: int = -16,
         channels: int = 2,
         buffer: int = 512,
+        use_pyaudio: bool = False,
+        use_asio: bool = False,
     ):
+        """
+        Initialize Enhanced DJ Mixer
+
+        Args:
+            frequency: Sample rate in Hz
+            size: Audio sample size
+            channels: Number of audio channels
+            buffer: Buffer size in samples
+            use_pyaudio: Use PyAudio instead of pygame (enables ASIO support)
+            use_asio: Prefer ASIO devices when using PyAudio
+        """
         super().__init__(frequency, size, channels, buffer)
+
+        # PyAudio support
+        self.use_pyaudio = use_pyaudio
+        self.use_asio = use_asio
+        self.pyaudio_mixer: Optional[PyAudioMixer] = None
 
         # Advanced features
         self.beat_detector = BeatDetector(sample_rate=frequency)
@@ -87,6 +105,31 @@ class EnhancedDJMixer(DJMixer):
         # Effects enabled flag
         self.effects_enabled = False
 
+    def initialize(self, device_index: Optional[int] = None) -> bool:
+        """
+        Initialize the mixer (PyAudio or pygame based on configuration)
+
+        Args:
+            device_index: Specific device index to use (for PyAudio mode)
+        """
+        if self.use_pyaudio:
+            # Use PyAudio mixer
+            self.pyaudio_mixer = PyAudioMixer(
+                sample_rate=self.frequency,
+                buffer_size=self.buffer,
+                channels=self.channels,
+            )
+            success = self.pyaudio_mixer.initialize(
+                device_index=device_index, use_asio=self.use_asio
+            )
+            if success:
+                self.is_initialized = True
+                print("Enhanced DJ Mixer initialized with PyAudio/ASIO support")
+            return success
+        else:
+            # Use pygame mixer (original behavior)
+            return super().initialize()
+
     def load_track(
         self,
         name: str,
@@ -99,10 +142,11 @@ class EnhancedDJMixer(DJMixer):
             print("Mixer not initialized")
             return False
 
-        # Load track using enhanced track class
-        track = EnhancedAudioTrack(file_path, device_id)
-        if track.load():
-            self.tracks[name] = track
+        # Use PyAudio mixer if enabled
+        if self.use_pyaudio and self.pyaudio_mixer:
+            success = self.pyaudio_mixer.load_track(name, file_path)
+            if not success:
+                return False
 
             # Analyze beats if requested
             if analyze_beats:
@@ -112,7 +156,22 @@ class EnhancedDJMixer(DJMixer):
             self.waveform_cache.get_waveform(file_path, width=1000)
 
             return True
-        return False
+        else:
+            # Use pygame mixer (original behavior)
+            # Load track using enhanced track class
+            track = EnhancedAudioTrack(file_path, device_id)
+            if track.load():
+                self.tracks[name] = track
+
+                # Analyze beats if requested
+                if analyze_beats:
+                    self.analyze_track_beats(name)
+
+                # Generate waveform (cache it)
+                self.waveform_cache.get_waveform(file_path, width=1000)
+
+                return True
+            return False
 
     def analyze_track_beats(self, name: str) -> Optional[BeatInfo]:
         """Analyze beats for a track"""
@@ -325,6 +384,111 @@ class EnhancedDJMixer(DJMixer):
             return True
         return False
 
+    def play_track(self, name: str, loops: int = 0, fade_ms: int = 0) -> bool:
+        """Play a loaded track (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.play_track(name, loops)
+        else:
+            return super().play_track(name, loops, fade_ms)
+
+    def stop_track(self, name: str, fade_ms: int = 0) -> bool:
+        """Stop a track (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.stop_track(name)
+        else:
+            return super().stop_track(name, fade_ms)
+
+    def pause_track(self, name: str) -> bool:
+        """Pause a track (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.pause_track(name)
+        else:
+            return super().pause_track(name)
+
+    def unpause_track(self, name: str) -> bool:
+        """Unpause a track (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.unpause_track(name)
+        else:
+            return super().unpause_track(name)
+
+    def set_track_volume(self, name: str, volume: float) -> bool:
+        """Set track volume (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.set_track_volume(name, volume)
+        else:
+            return super().set_track_volume(name, volume)
+
+    def get_track_volume(self, name: str) -> float:
+        """Get track volume (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.get_track_volume(name)
+        else:
+            return super().get_track_volume(name)
+
+    def set_master_volume(self, volume: float) -> bool:
+        """Set master volume (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.set_master_volume(volume)
+        else:
+            return super().set_master_volume(volume)
+
+    def get_master_volume(self) -> float:
+        """Get master volume (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.get_master_volume()
+        else:
+            return super().get_master_volume()
+
+    def set_crossfader(self, position: float) -> bool:
+        """Set crossfader position (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.set_crossfader(position)
+        else:
+            return super().set_crossfader(position)
+
+    def get_crossfader(self) -> float:
+        """Get crossfader position (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.get_crossfader()
+        else:
+            return super().get_crossfader()
+
+    def apply_crossfader(self, left_track: str, right_track: str) -> bool:
+        """Apply crossfader between two tracks (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.apply_crossfader(left_track, right_track)
+        else:
+            return super().apply_crossfader(left_track, right_track)
+
+    def get_loaded_tracks(self) -> List[str]:
+        """Get list of loaded tracks (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.get_loaded_tracks()
+        else:
+            return super().get_loaded_tracks()
+
+    def get_audio_devices(self) -> List:
+        """Get available audio devices (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.get_audio_devices()
+        else:
+            return super().get_audio_devices()
+
+    def get_asio_devices(self) -> List:
+        """Get ASIO-compatible audio devices (PyAudio only)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            return self.pyaudio_mixer.get_asio_devices()
+        else:
+            return []
+
+    def cleanup(self) -> None:
+        """Cleanup mixer resources (supports both PyAudio and pygame)"""
+        if self.use_pyaudio and self.pyaudio_mixer:
+            self.pyaudio_mixer.cleanup()
+        else:
+            super().cleanup()
+
     def get_mixer_status(self) -> dict:
         """Get comprehensive mixer status"""
         status = {
@@ -335,20 +499,37 @@ class EnhancedDJMixer(DJMixer):
             "recording": self.is_recording(),
             "midi_enabled": self.midi_enabled,
             "effects_enabled": self.effects_enabled,
+            "use_pyaudio": self.use_pyaudio,
+            "use_asio": self.use_asio,
             "tracks": {},
             "beat_info": {},
         }
 
+        # Add PyAudio/ASIO device info
+        if self.use_pyaudio and self.pyaudio_mixer:
+            if self.pyaudio_mixer.output_device:
+                status["audio_device"] = {
+                    "name": self.pyaudio_mixer.output_device.name,
+                    "host_api": self.pyaudio_mixer.output_device.host_api,
+                    "sample_rate": self.pyaudio_mixer.output_device.default_sample_rate,
+                    "channels": self.pyaudio_mixer.output_device.max_output_channels,
+                }
+
         for track_name in self.get_loaded_tracks():
             status["tracks"][track_name] = {
                 "volume": self.get_track_volume(track_name),
-                "playing": self.is_track_playing(track_name),
+                "playing": (
+                    self.is_track_playing(track_name) if not self.use_pyaudio else False
+                ),
                 "effects_enabled": False,
             }
 
-            track = self.tracks.get(track_name)
-            if isinstance(track, EnhancedAudioTrack):
-                status["tracks"][track_name]["effects_enabled"] = track.effects_enabled
+            if not self.use_pyaudio:
+                track = self.tracks.get(track_name)
+                if isinstance(track, EnhancedAudioTrack):
+                    status["tracks"][track_name][
+                        "effects_enabled"
+                    ] = track.effects_enabled
 
             # Add beat info
             beat_info = self.beat_info.get(track_name)

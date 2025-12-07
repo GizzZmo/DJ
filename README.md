@@ -9,6 +9,7 @@ A Python-based DJ Mixer application for playback on multiple sound devices. This
 ## Features
 
 - **Multi-Device Audio Support**: Play audio on different sound devices simultaneously
+- **PyAudio with ASIO Support**: Professional audio interface integration with low-latency ASIO drivers
 - **Audio Format Support**: Compatible with MP3, WAV, OGG, FLAC, and other common formats
 - **Crossfading**: Smooth transitions between tracks with adjustable crossfader
 - **Volume Control**: Independent volume control per track plus master volume
@@ -183,14 +184,62 @@ The DJ Mixer includes a professional graphical interface built with tkinter that
 
 ## Audio Device Support
 
-The mixer is designed to support multiple audio devices:
+The mixer supports two audio backend modes:
 
+### 1. pygame Mode (Default)
+- Simple and portable audio playback
+- Works out of the box on most systems
+- Good for basic DJ functionality
+- Limited device control
+
+### 2. PyAudio Mode with ASIO Support (Professional)
+- Full control over audio devices
+- **ASIO driver support** for professional audio interfaces
+- Low-latency audio processing
+- Multi-device routing capabilities
+- Ideal for professional DJ setups
+
+#### Using PyAudio with ASIO
+
+```python
+from enhanced_mixer import EnhancedDJMixer
+
+# Use PyAudio with default output device
+mixer = EnhancedDJMixer(use_pyaudio=True)
+mixer.initialize()
+
+# Use PyAudio with ASIO preference (professional audio interfaces)
+mixer = EnhancedDJMixer(use_pyaudio=True, use_asio=True)
+mixer.initialize()
+
+# List available ASIO devices
+asio_devices = mixer.get_asio_devices()
+for device in asio_devices:
+    print(f"{device.name} - {device.host_api}")
+
+# Use specific device by index
+mixer = EnhancedDJMixer(use_pyaudio=True)
+mixer.initialize(device_index=2)
+```
+
+#### Demo PyAudio/ASIO Features
+
+```bash
+python demo_pyaudio_asio.py
+```
+
+This demo showcases:
+- Standard PyAudio mode with default output
+- ASIO mode with professional audio interfaces
+- Device enumeration and selection
+- Comparison between pygame and PyAudio modes
+
+### Supported Output Configurations
 - **Main Output**: Primary speakers or PA system
 - **Headphone Output**: DJ monitoring and cueing
 - **Recording Output**: For recording or broadcasting
 - **Additional Outputs**: Extra zones or devices
-
-*Note: Current implementation uses pygame which abstracts device selection. For production use with specific device control, consider upgrading to PyAudio with ASIO drivers.*
+- **Multi-channel Interfaces**: Support for professional DJ controllers with multiple outputs
 
 ## DJ Mixing Concepts
 
