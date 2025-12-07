@@ -267,10 +267,10 @@ class MockDJMixer:
 
 def test_mock_mixer():
     """Test the mock DJ mixer functionality"""
-    print("╔═══════════════════════════════════╗")
-    print("║     MOCK DJ MIXER TEST            ║")
-    print("║   Testing Without Audio Hardware  ║")
-    print("╚═══════════════════════════════════╝\n")
+    print("+===================================+")
+    print("|     MOCK DJ MIXER TEST            |")
+    print("|   Testing Without Audio Hardware  |")
+    print("+===================================+\n")
 
     # Initialize mixer
     mixer = MockDJMixer()
@@ -278,7 +278,7 @@ def test_mock_mixer():
         print("Failed to initialize mock mixer")
         return False
 
-    print("✓ Mock mixer initialized successfully")
+    print("[OK] Mock mixer initialized successfully")
 
     # Show available devices
     devices = mixer.get_audio_devices()
@@ -333,7 +333,7 @@ def test_mock_mixer():
 
     # Cleanup
     mixer.cleanup()
-    print("\n✓ Mock test completed successfully!")
+    print("\n[OK] Mock test completed successfully!")
     return True
 
 
