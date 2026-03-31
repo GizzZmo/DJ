@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Screenshot utility for the DJ GUI
+Screenshot utility for the DJ GUI (requires `scrot` available on the system).
 """
 
+from pathlib import Path
 import subprocess
 import time
-from pathlib import Path
 import tkinter as tk
 
 from dj_gui import DJMixerGUI
