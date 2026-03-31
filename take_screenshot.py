@@ -18,7 +18,6 @@ SCROT_COMMAND = ["scrot", "--focused"]
 
 def take_screenshot():
     """Take a screenshot of the GUI using scrot (works with xvfb-run)."""
-    app = None
     try:
         # Create and run the GUI briefly
         app = DJMixerGUI()
@@ -26,6 +25,7 @@ def take_screenshot():
 
         # Position and configure window
         app.root.geometry("900x700+50+50")
+        # Ensure the window is focused/topmost so scrot --focused captures the GUI
         app.root.lift()
         app.root.focus_force()
         app.root.attributes("-topmost", True)
@@ -49,7 +49,7 @@ def take_screenshot():
     except Exception as e:
         print(f"Screenshot failed: {e}")
     finally:
-        if app:
+        if "app" in locals():
             try:
                 app.root.destroy()
             except Exception:
