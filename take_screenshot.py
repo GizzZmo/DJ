@@ -12,6 +12,10 @@ import tkinter as tk
 from dj_gui import DJMixerGUI
 
 
+SCREENSHOT_FILENAME = "gui_screenshot.png"
+SCROT_COMMAND = ["scrot", "--focused"]
+
+
 def take_screenshot():
     """Take a screenshot of the GUI using scrot (works with xvfb-run)."""
     app = None
@@ -29,9 +33,9 @@ def take_screenshot():
 
         # Take screenshot using scrot (works under xvfb-run)
         time.sleep(1)
-        output_path = Path(__file__).parent / "gui_screenshot.png"
+        output_path = Path(__file__).parent / SCREENSHOT_FILENAME
         subprocess.run(
-            ["scrot", "--focused", str(output_path)],
+            [*SCROT_COMMAND, str(output_path)],
             check=True,
         )
 
