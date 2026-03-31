@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Screenshot utility for the DJ GUI (requires `scrot` available on the system).
+Screenshot utility for the DJ GUI (requires `scrot`; install on Debian/Ubuntu with
+`sudo apt-get install -y scrot`).
 """
 
 from pathlib import Path
@@ -13,6 +14,7 @@ from dj_gui import DJMixerGUI
 
 def take_screenshot():
     """Take a screenshot of the GUI using scrot (works with xvfb-run)."""
+    app = None
     try:
         # Create and run the GUI briefly
         app = DJMixerGUI()
@@ -35,11 +37,19 @@ def take_screenshot():
 
         print(f"Screenshot saved as {output_path.name}")
 
-        # Close the GUI
-        app.root.destroy()
-
+    except FileNotFoundError:
+        print(
+            "Screenshot failed: scrot not found. Install with "
+            "`sudo apt-get install -y scrot`."
+        )
     except Exception as e:
         print(f"Screenshot failed: {e}")
+    finally:
+        if app:
+            try:
+                app.root.destroy()
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":
