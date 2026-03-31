@@ -26,7 +26,7 @@ def take_screenshot():
         time.sleep(1)
         output_path = Path(__file__).parent / "gui_screenshot.png"
         subprocess.run(
-            ["scrot", str(output_path), "-q", "95"],
+            ["scrot", str(output_path), "-q", "90"],
             check=True,
         )
 
