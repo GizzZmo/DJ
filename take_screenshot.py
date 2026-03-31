@@ -3,10 +3,10 @@
 Screenshot utility for the DJ GUI
 """
 
-import tkinter as tk
 import subprocess
 import time
 from pathlib import Path
+import tkinter as tk
 
 from dj_gui import DJMixerGUI
 
