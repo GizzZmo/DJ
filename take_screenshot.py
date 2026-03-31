@@ -11,6 +11,9 @@ from pathlib import Path
 from dj_gui import DJMixerGUI
 
 
+SCREENSHOT_QUALITY = 90
+
+
 def take_screenshot():
     """Take a screenshot of the GUI using scrot (works with xvfb-run)."""
     try:
@@ -26,7 +29,7 @@ def take_screenshot():
         time.sleep(1)
         output_path = Path(__file__).parent / "gui_screenshot.png"
         subprocess.run(
-            ["scrot", str(output_path), "-q", "90"],
+            ["scrot", str(output_path), "-q", str(SCREENSHOT_QUALITY)],
             check=True,
         )
 
