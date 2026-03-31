@@ -166,6 +166,16 @@ DJ/
 
 The DJ Mixer includes a professional graphical interface built with tkinter that provides visual control over all mixer functions:
 
+## Screenshots
+
+![DJ Mixer GUI overview](gui_screenshot.png)
+
+*Dual-deck layout with transport controls, volume sliders, and crossfader for live mixing.*
+
+![AI-powered mixing assistant overlay](ai_gui_demo.png)
+
+*Configurable Gemini-powered assistant providing auto-mixing, key analysis, and effect suggestions.*
+
 ### GUI Features
 - **Professional Layout**: Traditional DJ mixer design with dual decks and central crossfader
 - **File Management**: Easy track loading through standard file dialogs
