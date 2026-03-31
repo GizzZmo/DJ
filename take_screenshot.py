@@ -20,13 +20,16 @@ def take_screenshot():
 
         # Position and configure window
         app.root.geometry("900x700+50+50")
+        app.root.lift()
+        app.root.focus_force()
+        app.root.attributes("-topmost", True)
         app.root.update()
 
         # Take screenshot using scrot (works under xvfb-run)
         time.sleep(1)
         output_path = Path(__file__).parent / "gui_screenshot.png"
         subprocess.run(
-            ["scrot", str(output_path)],
+            ["scrot", "--focused", str(output_path)],
             check=True,
         )
 
