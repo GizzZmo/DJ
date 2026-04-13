@@ -46,7 +46,7 @@ dj-mixer-example = "example:main"
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
+    "pytest-cov>=7.1.0",
     "pytest-mock>=3.10.0",
     "black>=23.0.0",
     "flake8>=6.0.0",
