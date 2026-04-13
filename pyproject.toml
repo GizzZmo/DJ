@@ -52,7 +52,7 @@ dev = [
     "flake8>=6.0.0",
     "mypy>=1.0.0",
     "bandit>=1.7.0",
-    "safety>=2.3.0",
+    "safety>=3.7.0",
 ]
 docs = [
     "sphinx>=5.0.0",
